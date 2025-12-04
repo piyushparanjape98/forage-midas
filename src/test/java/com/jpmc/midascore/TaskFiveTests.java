@@ -8,12 +8,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.kafka.test.context.EmbeddedKafka;
 import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.ActiveProfiles;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @DirtiesContext
-@EmbeddedKafka(partitions = 1, brokerProperties = {"listeners=PLAINTEXT://localhost:9092", "port=9092"})
+@ActiveProfiles("kafka-integration")
+@EmbeddedKafka(partitions = 1, brokerProperties = {"listeners=PLAINTEXT://127.0.0.1:0", "port=0", "log.dirs=C:/temp/midas-kafka-five", "log.dir=C:/temp/midas-kafka-five"})
 public class TaskFiveTests {
     static final Logger logger = LoggerFactory.getLogger(TaskFiveTests.class);
+
+    static {
+        try {
+            new java.io.File("C:/temp/midas-kafka-five").mkdirs();
+        } catch (Exception e) {
+            // ignore - best effort
+        }
+    }
 
     @Autowired
     private KafkaProducer kafkaProducer;
@@ -30,6 +40,11 @@ public class TaskFiveTests {
 
     @Test
     void task_five_verifier() throws InterruptedException {
+        System.out.println("=== DIAGNOSTIC: java.io.tmpdir = " + System.getProperty("java.io.tmpdir"));
+        System.out.println("=== DIAGNOSTIC: log.dirs configured = C:/temp/midas-kafka-five");
+        System.out.println("=== DIAGNOSTIC: midas-kafka-five exists? " + new java.io.File("C:/temp/midas-kafka-five").exists());
+        System.out.println("=== DIAGNOSTIC: midas-kafka-five canWrite? " + new java.io.File("C:/temp/midas-kafka-five").canWrite());
+        System.out.println("=== DIAGNOSTIC: midas-kafka-five isDirectory? " + new java.io.File("C:/temp/midas-kafka-five").isDirectory());
         userPopulator.populate();
         String[] transactionLines = fileLoader.loadStrings("/test_data/rueiwoqp.tyruei");
         for (String transactionLine : transactionLines) {
