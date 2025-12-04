@@ -17,11 +17,11 @@ class TaskOneTests {
         logger.info("----------------------------------------------------------");
         logger.info("Congrats! It looks like your application booted without issue");
         logger.info("submit the following output to complete the task (include begin and end output denotations)");
-        StringBuilder output = new StringBuilder("\n").append("---begin output ---").append("\n");
+        StringBuilder output = new StringBuilder("\n").append("===== BEGIN TASK ONE OUTPUT =====").append("\n");
         for (int i = 0; i < 10; i++) {
             output.append(String.valueOf((int) Math.floor(Math.pow(i, i))));
         }
-        output.append("\n").append("---end output ---");
+        output.append("\n").append("===== END TASK ONE OUTPUT =====");
         logger.info(output.toString());
 
     }
