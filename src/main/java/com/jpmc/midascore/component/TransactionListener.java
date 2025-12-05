@@ -8,7 +8,7 @@ import com.jpmc.midascore.foundation.Transaction;
 @Component
 public class TransactionListener {
 
-    @KafkaListener(topics = "${general.kafka-topic}")
+    @KafkaListener(topics = "${general.kafka-topic}", groupId = "${spring.kafka.consumer.group-id:midas-default}")
     public void onTransaction(Transaction transaction) {
         // For Task 2 we only need to receive the message.
         // Keep a breakpoint on this line when running TaskTwoTests.
