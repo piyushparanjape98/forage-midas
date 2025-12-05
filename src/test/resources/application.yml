@@ -5,3 +5,6 @@ spring:
   kafka:
     consumer:
       group-id: midas-test-group
+
+kafka:
+  enabled: true
